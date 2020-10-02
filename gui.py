@@ -1,6 +1,14 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'lootowanie.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.2
+#
+# WARNING! All changes made in this file will be lost!
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
-from threading import Thread
-import time
+from pynput import mouse
 
 
 class Ui_Form(object):
@@ -69,6 +77,18 @@ class Ui_Form(object):
         self.checkBox.setGeometry(QtCore.QRect(150, 200, 70, 17))
         self.checkBox.setObjectName("checkBox")
 
+        def on_click(x, y, button, pressed):
+            with open("coord.txt", "w") as c:
+                if button == mouse.Button.left:
+                    print(x, y)
+                    c.write(f'{x}, {y}')
+                    return False
+            c.close()
+
+        listener = mouse.Listener(on_click=on_click)
+        listener.start()
+        ## listener.join()
+
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -92,6 +112,8 @@ class Ui_Form(object):
         self.lineEdit_2.setText(_translate("Form", "F11"))
         self.lineEdit_3.setText(_translate("Form", "F10"))
         self.checkBox.setText(_translate("Form", "RUN?"))
+
+
 
 
 if __name__ == "__main__":
