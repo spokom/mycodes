@@ -1,13 +1,12 @@
 from pynput import mouse
 
 def on_click(x, y, button, pressed):
-    c=open("coord.txt", "w+")
-    if button == mouse.Button.left:
-        print(x, y)
-        c.write(x)
-        c.write(y)
-        return False
-    c.flush()
+    with open("coord.txt", "w") as c:
+        if button == mouse.Button.left:
+            print(x, y)
+            c.write(f'{x}, {y}')
+            return False
+    c.close()
 listener = mouse.Listener(on_click=on_click)
 listener.start()
 listener.join()
